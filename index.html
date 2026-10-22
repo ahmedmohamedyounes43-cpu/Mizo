@@ -300,79 +300,103 @@
         </div>
     </div>
 
-    <!-- لوحة تحكم الأدمن -->
+    <!-- لوحة تحكم الأدمن (المقسمة لتبويبين مستقلين) -->
     <div id="admin-dashboard" class="app-modal flex-col overflow-y-auto bg-slate-100 modal-backdrop" onclick="checkModalClose(event, 'admin-dashboard')">
         <div class="bg-slate-900 text-white p-4 shadow-md flex justify-between items-center sticky top-0 z-10" onclick="event.stopPropagation()">
-            <h2 class="text-xl font-black"><i class="fa-solid fa-gauge text-amber-400 ml-2"></i>لوحة تحكم الأدمن</h2>
-            <button type="button" id="close-admin-dashboard-btn" class="bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold">إغلاق</button>
+            <h2 class="text-xl font-black"><i class="fa-solid fa-gauge text-amber-400 ml-2"></i>لوحة تحكم الإدارة</h2>
+            <button type="button" id="close-admin-dashboard-btn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-bold transition">إغلاق</button>
         </div>
-        <div class="container mx-auto px-4 py-8 space-y-8" onclick="event.stopPropagation()">
-            <!-- طلبات العملاء الواردة -->
-            <div class="bg-white p-6 rounded-3xl shadow-xl">
-                <h3 class="text-lg font-black mb-4">طلبات العملاء الواردة (<span id="orders-badge">0</span>)</h3>
-                <div class="overflow-x-auto"><table class="w-full text-right"><tbody id="admin-orders-body"></tbody></table></div>
+
+        <div class="container mx-auto px-4 py-6 space-y-6" onclick="event.stopPropagation()">
+            
+            <!-- أزرار التنقل بين أقسام لوحة التحكم -->
+            <div class="flex justify-center gap-3 bg-white p-3 rounded-2xl shadow-md border border-slate-200">
+                <button type="button" id="tab-btn-orders" onclick="switchAdminTab('orders')" class="px-6 py-3 rounded-xl font-black transition text-sm sm:text-base flex items-center gap-2 bg-emerald-700 text-white shadow-md">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span>طلبات العملاء الواردة</span>
+                    <span id="orders-badge" class="bg-amber-400 text-slate-950 text-xs px-2 py-0.5 rounded-full font-black">0</span>
+                </button>
+                <button type="button" id="tab-btn-settings" onclick="switchAdminTab('settings')" class="px-6 py-3 rounded-xl font-black transition text-sm sm:text-base flex items-center gap-2 bg-slate-100 text-slate-700 hover:bg-slate-200">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>إدارة محتوى الموقع والأقسام</span>
+                </button>
             </div>
 
-            <!-- إضافة قسم جديد -->
-            <div class="bg-white p-6 rounded-3xl shadow-xl">
-                <h3 class="text-lg font-black mb-4">إضافة قسم جديد</h3>
-                <form id="add-category-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                    <div>
-                        <label class="block text-sm font-bold mb-1">اسم القسم *</label>
-                        <input type="text" id="c-name" required class="w-full border p-2.5 rounded-xl bg-slate-50" placeholder="مثال: شوكولاتة وشيبسي">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-1">صورة القسم من الجهاز *</label>
-                        <input type="file" id="c-image" accept="image/*" class="w-full border p-2 rounded-xl bg-slate-50 text-sm">
-                    </div>
-                    <div>
-                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl cursor-pointer">حفظ القسم سحابياً</button>
-                    </div>
-                </form>
-
-                <h4 class="font-bold text-sm text-slate-700 mt-6 mb-3">الأقسام الحالية:</h4>
-                <div id="admin-categories-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+            <!-- التبويب الأول: طلبات العملاء المفصلة -->
+            <div id="admin-tab-orders" class="space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-100">
+                    <h3 class="text-lg font-black mb-6 text-slate-900 flex items-center border-b pb-3">
+                        <i class="fa-solid fa-truck-ramp-box text-emerald-600 ml-2"></i>
+                        قائمة الطلبات الواردة التفصيلية
+                    </h3>
+                    <div id="admin-orders-list" class="space-y-4"></div>
+                </div>
             </div>
 
-            <!-- إضافة صنف جديد -->
-            <div class="bg-white p-6 rounded-3xl shadow-xl">
-                <h3 class="text-lg font-black mb-4">إضافة صنف جديد</h3>
-                <form id="add-product-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-sm font-bold mb-1">القسم</label>
-                        <select id="p-category" required class="w-full border p-2.5 rounded-xl bg-slate-50"></select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-1">اسم الصنف</label>
-                        <input type="text" id="p-name" required class="w-full border p-2.5 rounded-xl bg-slate-50" placeholder="اسم الصنف">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-1">صورة الصنف</label>
-                        <input type="file" id="p-image" accept="image/*" class="w-full border p-2 rounded-xl bg-slate-50 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-1">طريقة البيع</label>
-                        <select id="p-type" class="w-full border p-2.5 rounded-xl bg-slate-50">
-                            <option value="كرتونة">كرتونة</option>
-                            <option value="قطعة">قطعة</option>
-                            <option value="دستة">دستة</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-1">السعر (ج.م)</label>
-                        <input type="number" id="p-price" required class="w-full border p-2.5 rounded-xl bg-slate-50" placeholder="السعر">
-                    </div>
-                    <div class="flex items-end">
-                        <button type="submit" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl cursor-pointer">حفظ الصنف</button>
-                    </div>
-                </form>
+            <!-- التبويب الثاني: إدارة وتعديل المحتوى والأقسام -->
+            <div id="admin-tab-settings" class="space-y-8 hidden">
+                <!-- إضافة قسم جديد -->
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-100">
+                    <h3 class="text-lg font-black mb-4 text-slate-900">إضافة قسم جديد</h3>
+                    <form id="add-category-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                        <div>
+                            <label class="block text-sm font-bold mb-1">اسم القسم *</label>
+                            <input type="text" id="c-name" required class="w-full border p-2.5 rounded-xl bg-slate-50" placeholder="مثال: شوكولاتة وشيبسي">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-1">صورة القسم من الجهاز *</label>
+                            <input type="file" id="c-image" accept="image/*" class="w-full border p-2 rounded-xl bg-slate-50 text-sm">
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl cursor-pointer transition">حفظ القسم سحابياً</button>
+                        </div>
+                    </form>
+
+                    <h4 class="font-bold text-sm text-slate-700 mt-6 mb-3">الأقسام الحالية:</h4>
+                    <div id="admin-categories-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+                </div>
+
+                <!-- إضافة صنف جديد -->
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-100">
+                    <h3 class="text-lg font-black mb-4 text-slate-900">إضافة صنف جديد</h3>
+                    <form id="add-product-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold mb-1">القسم</label>
+                            <select id="p-category" required class="w-full border p-2.5 rounded-xl bg-slate-50"></select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-1">اسم الصنف</label>
+                            <input type="text" id="p-name" required class="w-full border p-2.5 rounded-xl bg-slate-50" placeholder="اسم الصنف">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-1">صورة الصنف</label>
+                            <input type="file" id="p-image" accept="image/*" class="w-full border p-2 rounded-xl bg-slate-50 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-1">طريقة البيع</label>
+                            <select id="p-type" class="w-full border p-2.5 rounded-xl bg-slate-50">
+                                <option value="كرتونة">كرتونة</option>
+                                <option value="قطعة">قطعة</option>
+                                <option value="دستة">دستة</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-1">السعر (ج.م)</label>
+                            <input type="number" id="p-price" required class="w-full border p-2.5 rounded-xl bg-slate-50" placeholder="السعر">
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl cursor-pointer transition">حفظ الصنف</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- جدول الأصناف المضافة -->
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-100">
+                    <h3 class="text-lg font-black mb-4 text-slate-900">الأصناف المضافة للموقع</h3>
+                    <div class="overflow-x-auto"><table class="w-full text-right"><tbody id="admin-table-body"></tbody></table></div>
+                </div>
             </div>
 
-            <!-- جدول الأصناف -->
-            <div class="bg-white p-6 rounded-3xl shadow-xl">
-                <h3 class="text-lg font-black mb-4">الأصناف المضافة</h3>
-                <div class="overflow-x-auto"><table class="w-full text-right"><tbody id="admin-table-body"></tbody></table></div>
-            </div>
         </div>
     </div>
 
@@ -399,6 +423,26 @@
         function checkModalClose(event, modalId) {
             if (event.target.classList.contains('app-modal')) {
                 document.getElementById(modalId).classList.remove('show');
+            }
+        }
+
+        // دالة التنقل بين تبويبات لوحة التحكم
+        function switchAdminTab(tab) {
+            const ordersTab = document.getElementById('admin-tab-orders');
+            const settingsTab = document.getElementById('admin-tab-settings');
+            const btnOrders = document.getElementById('tab-btn-orders');
+            const btnSettings = document.getElementById('tab-btn-settings');
+
+            if (tab === 'orders') {
+                ordersTab.classList.remove('hidden');
+                settingsTab.classList.add('hidden');
+                btnOrders.className = "px-6 py-3 rounded-xl font-black transition text-sm sm:text-base flex items-center gap-2 bg-emerald-700 text-white shadow-md";
+                btnSettings.className = "px-6 py-3 rounded-xl font-black transition text-sm sm:text-base flex items-center gap-2 bg-slate-100 text-slate-700 hover:bg-slate-200";
+            } else {
+                ordersTab.classList.add('hidden');
+                settingsTab.classList.remove('hidden');
+                btnSettings.className = "px-6 py-3 rounded-xl font-black transition text-sm sm:text-base flex items-center gap-2 bg-emerald-700 text-white shadow-md";
+                btnOrders.className = "px-6 py-3 rounded-xl font-black transition text-sm sm:text-base flex items-center gap-2 bg-slate-100 text-slate-700 hover:bg-slate-200";
             }
         }
 
@@ -548,7 +592,6 @@
             `).join('');
         }
 
-        // تم التعديل: تضاف المادة وتحدث السلة بدون فتح النافذة تلقائياً
         function addToCart(firebaseKey) {
             const item = products.find(p => p.firebaseKey === firebaseKey);
             if (!item) return;
@@ -641,17 +684,67 @@
             }
         }
 
+        // عرض الطلبات بالتفاصيل الكاملة
         function renderAdminOrders() {
             document.getElementById('orders-badge').innerText = orders.length;
-            const tbody = document.getElementById('admin-orders-body');
-            if (!tbody) return;
-            tbody.innerHTML = orders.length === 0 ? `<tr><td class="p-4 text-center text-slate-400">لا توجد طلبات جديدة</td></tr>` : orders.map(o => `
-                <tr class="border-b"><td class="p-2 font-bold">${o.customer.name}<br><span class="text-xs text-slate-500">${o.customer.phone} - ${o.customer.address}</span></td><td class="p-2 font-bold text-emerald-600">${o.total} ج.م</td><td class="p-2"><button type="button" onclick="deleteOrder('${o.firebaseId}')" class="bg-green-600 text-white px-2 py-1 rounded text-xs cursor-pointer">تم التسليم</button></td></tr>
+            const container = document.getElementById('admin-orders-list');
+            if (!container) return;
+
+            if (orders.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-slate-400 font-bold">لا توجد طلبات جديدة حالياً</div>`;
+                return;
+            }
+
+            container.innerHTML = orders.map(o => `
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-200 pb-3">
+                        <div>
+                            <span class="bg-emerald-100 text-emerald-800 text-xs font-black px-2.5 py-1 rounded-md">رقم الطلب: ${o.id || 'جديد'}</span>
+                            <span class="text-xs text-slate-500 mr-2 font-semibold">${o.date || ''}</span>
+                        </div>
+                        <button type="button" onclick="deleteOrder('${o.firebaseId}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1.5 rounded-xl text-xs font-black cursor-pointer transition flex items-center gap-1">
+                            <i class="fa-solid fa-check"></i> تم التسليم والأرشفة
+                        </button>
+                    </div>
+
+                    <!-- بيانات العميل -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-white p-3 rounded-xl border border-slate-100 text-sm">
+                        <div><strong class="text-slate-500 block text-xs">اسم العميل:</strong> <span class="font-black text-slate-900">${o.customer ? o.customer.name : 'غير محدد'}</span></div>
+                        <div><strong class="text-slate-500 block text-xs">رقم الهاتف:</strong> <a href="tel:${o.customer ? o.customer.phone : ''}" class="font-black text-blue-600 hover:underline" dir="ltr">${o.customer ? o.customer.phone : 'غير محدد'}</a></div>
+                        <div><strong class="text-slate-500 block text-xs">العنوان:</strong> <span class="font-bold text-slate-800">${o.customer ? o.customer.address : 'غير محدد'}</span></div>
+                    </div>
+
+                    <!-- أصناف الطلب -->
+                    <div>
+                        <h4 class="font-black text-xs text-slate-500 mb-2">الأصناف المطلوبة:</h4>
+                        <div class="space-y-1.5">
+                            ${(o.items || []).map(item => `
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-100 text-xs sm:text-sm">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-box text-amber-500"></i>
+                                        <span class="font-black text-slate-900">${item.name}</span>
+                                        <span class="text-slate-500">(${item.type || 'قطع'})</span>
+                                    </div>
+                                    <div class="font-black text-slate-800">
+                                        <span>الكمية: <strong class="text-emerald-700 font-black text-base">${item.qty}</strong></span> | 
+                                        <span>السعر: ${item.price * item.qty} ج.م</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- إجمالي السعر -->
+                    <div class="flex justify-between items-center pt-2 border-t border-slate-200">
+                        <span class="font-black text-slate-900 text-sm">الإجمالي الحسابي المطلوب:</span>
+                        <span class="font-black text-lg text-emerald-700">${o.total} ج.م</span>
+                    </div>
+                </div>
             `).join('');
         }
 
         function deleteOrder(firebaseId) {
-            if (firebaseId) {
+            if (confirm("هل تم تسليم هذا الطلب ورغبت في أرشفته وحذفه؟")) {
                 db.ref('orders/' + firebaseId).remove();
             }
         }
