@@ -10,13 +10,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Font Cairo -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+        }
+
         .app-modal {
             display: none;
             position: fixed;
@@ -25,7 +29,10 @@
             background-color: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(4px);
         }
-        .app-modal.show { display: flex !important; }
+
+            .app-modal.show {
+                display: flex !important;
+            }
 
         /* ستايل المصمم Ahmed Younes */
         .ay-credit {
@@ -38,20 +45,23 @@
             border-top: 1px solid #e2e8f0;
             direction: ltr;
         }
-        .ay-credit button {
-            border: none;
-            background: none;
-            padding: 0;
-            color: #1685ff;
-            font: inherit;
-            font-weight: 700;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-        .ay-credit button:hover {
-            color: #075fc0;
-            text-decoration: underline;
-        }
+
+            .ay-credit button {
+                border: none;
+                background: none;
+                padding: 0;
+                color: #1685ff;
+                font: inherit;
+                font-weight: 700;
+                cursor: pointer;
+                transition: color 0.2s ease;
+            }
+
+                .ay-credit button:hover {
+                    color: #075fc0;
+                    text-decoration: underline;
+                }
+
         .ay-modal {
             position: fixed;
             inset: 0;
@@ -64,7 +74,11 @@
             backdrop-filter: blur(5px);
             direction: ltr;
         }
-        .ay-modal.ay-open { display: flex; }
+
+            .ay-modal.ay-open {
+                display: flex;
+            }
+
         .ay-card {
             position: relative;
             width: 100%;
@@ -78,10 +92,19 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
             animation: ayAppear 0.22s ease-out;
         }
+
         @keyframes ayAppear {
-            from { opacity: 0; transform: translateY(12px) scale(.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
+
         .ay-avatar {
             width: 72px;
             height: 72px;
@@ -95,24 +118,48 @@
             font-size: 25px;
             font-weight: 800;
         }
-        .ay-card h3 { margin: 0 0 7px; font-size: 23px; }
-        .ay-card p { margin: 0 0 22px; color: #777; font-size: 13px; }
-        .ay-links { display: grid; gap: 10px; }
-        .ay-links a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            color: #222;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.2s, transform 0.2s;
+
+        .ay-card h3 {
+            margin: 0 0 7px;
+            font-size: 23px;
         }
-        .ay-links a:hover { background: #f3f7ff; transform: translateX(3px); }
-        .ay-icon { width: 25px; text-align: center; font-size: 17px; }
+
+        .ay-card p {
+            margin: 0 0 22px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .ay-links {
+            display: grid;
+            gap: 10px;
+        }
+
+            .ay-links a {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 15px;
+                border: 1px solid #eee;
+                border-radius: 12px;
+                color: #222;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 600;
+                transition: background 0.2s, transform 0.2s;
+            }
+
+                .ay-links a:hover {
+                    background: #f3f7ff;
+                    transform: translateX(3px);
+                }
+
+        .ay-icon {
+            width: 25px;
+            text-align: center;
+            font-size: 17px;
+        }
+
         .ay-close {
             position: absolute;
             top: 12px;
@@ -126,7 +173,10 @@
             font-size: 22px;
             cursor: pointer;
         }
-        .ay-close:hover { background: #e3e3e3; }
+
+            .ay-close:hover {
+                background: #e3e3e3;
+            }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -184,26 +234,17 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-            <div class="p-6 bg-slate-900 text-white flex justify-between items-center">
+        <!-- قائمة الأصناف المعدلة لمنع تداخل النصوص -->
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 p-4 md:p-6">
+            <div class="p-4 bg-slate-900 text-white rounded-2xl mb-6 flex justify-between items-center">
                 <h3 id="table-header-title" class="text-lg font-bold flex items-center">
                     <i class="fa-solid fa-boxes-stacked text-amber-400 ml-2"></i>
                     <span>أصناف القسم</span>
                 </h3>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-right border-collapse">
-                    <thead>
-                        <tr class="border-b bg-slate-50 text-slate-600 text-sm">
-                            <th class="p-4 font-bold">الصنف</th>
-                            <th class="p-4 font-bold">طريقة البيع</th>
-                            <th class="p-4 font-bold">السعر</th>
-                            <th class="p-4 text-center font-bold">إجراء</th>
-                        </tr>
-                    </thead>
-                    <tbody id="products-table-body"></tbody>
-                </table>
-            </div>
+
+            <!-- حاوية المنتجات المحسنة -->
+            <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
     </main>
 
@@ -246,7 +287,7 @@
                 <h3 class="text-xl font-black text-slate-900 flex items-center"><i class="fa-solid fa-cart-shopping text-emerald-600 ml-2"></i>سلة الطلبات</h3>
                 <button type="button" id="close-cart-btn" class="text-slate-400 hover:text-red-500 text-2xl font-bold w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">✕</button>
             </div>
-            
+
             <div id="cart-actions-bar" class="mb-3 flex justify-between items-center hidden">
                 <span class="text-xs text-slate-500 font-bold">مراجعة الأصناف والكميات</span>
                 <button type="button" onclick="clearCart()" class="text-red-500 hover:text-red-700 text-xs font-bold bg-red-50 px-2.5 py-1 rounded-lg border border-red-100 transition cursor-pointer">
@@ -281,7 +322,7 @@
         </div>
     </div>
 
-    <!-- نافذة تسجيل دخول الأدمن (تم إخفاء كلمة المرور) -->
+    <!-- نافذة تسجيل دخول الأدمن -->
     <div id="admin-login-modal" class="app-modal items-center justify-center p-4 modal-backdrop" onclick="checkModalClose(event, 'admin-login-modal')">
         <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm">
             <h3 class="text-xl font-black text-slate-900 mb-4 text-center">دخول لوحة التحكم</h3>
@@ -371,393 +412,406 @@
 
     <!-- الجافاسكربت -->
     <script>
-        const firebaseConfig = {
-            databaseURL: "https://abu-islam-store-default-rtdb.firebaseio.com/"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        const DEFAULT_IMG = "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80";
-
-        let categories = [
-            { firebaseKey: 'c1', name: 'شيبسي وسناكس', image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=600&q=80' },
-            { firebaseKey: 'c2', name: 'بسكوت وحلويات', image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80' }
-        ];
-        let products = [];
-        let orders = [];
-        let cart = [];
-        let activeCategory = 'شيبسي وسناكس';
-
-        function checkModalClose(event, modalId) {
-            if (event.target.classList.contains('app-modal')) {
-                document.getElementById(modalId).classList.remove('show');
-            }
-        }
-
-        function initCloudSync() {
-            renderCategories();
-
-            db.ref('categories').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    categories = Object.keys(data).map(key => ({ ...data[key], firebaseKey: key }));
-                } else {
-                    db.ref('categories').set({
-                        c1: { name: 'شيبسي وسناكس', image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=600&q=80' },
-                        c2: { name: 'بسكوت وحلويات', image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80' }
-                    });
-                }
-                renderCategories();
-                renderAdminCategoryList();
-            });
-
-            db.ref('products').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    products = Object.keys(data).map(key => ({ ...data[key], firebaseKey: key }));
-                } else {
-                    db.ref('products').push({
-                        category: 'شيبسي وسناكس',
-                        name: 'كرتونة شيبسي مشكل',
-                        type: 'كرتونة',
-                        price: 1500,
-                        image: DEFAULT_IMG
-                    });
-                }
-                renderProducts();
-                renderAdminTable();
-            });
-
-            db.ref('orders').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    orders = Object.keys(data).map(key => ({ ...data[key], firebaseId: key }));
-                } else {
-                    orders = [];
-                }
-                renderAdminOrders();
-            });
-        }
-
-        function renderCategories() {
-            const tabs = document.getElementById('categories-tabs');
-            if (!tabs) return;
-
-            if (!categories.some(c => c.name === activeCategory) && categories.length > 0) {
-                activeCategory = categories[0].name;
-            }
-
-            tabs.innerHTML = categories.map(c => `
-                <button type="button" onclick="selectCategory('${c.name}')" class="px-5 py-2.5 rounded-2xl font-bold cursor-pointer ${c.name === activeCategory ? 'bg-emerald-700 text-white shadow-lg' : 'bg-white border text-slate-700'}">${c.name}</button>
-            `).join('');
-
-            const activeObj = categories.find(c => c.name === activeCategory) || categories[0];
-            const bannerContainer = document.getElementById('active-category-banner');
-            if (activeObj && bannerContainer) {
-                document.getElementById('banner-title').innerText = activeObj.name;
-                document.getElementById('banner-image-container').innerHTML = `<img src="${activeObj.image || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" class="w-full h-full object-cover">`;
-            }
-
-            const select = document.getElementById('p-category');
-            if (select) {
-                select.innerHTML = categories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
-            }
-        }
-
-        function renderAdminCategoryList() {
-            const container = document.getElementById('admin-categories-list');
-            if (!container) return;
-            container.innerHTML = categories.map(c => `
-                <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border">
-                    <div class="flex items-center gap-2">
-                        <img src="${c.image || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" class="w-8 h-8 object-cover rounded-lg">
-                        <span class="font-bold text-sm">${c.name}</span>
-                    </div>
-                    <button type="button" onclick="deleteCategory('${c.firebaseKey}', '${c.name}')" class="bg-red-500 text-white px-2 py-1 rounded text-xs cursor-pointer">حذف</button>
-                </div>
-            `).join('');
-        }
-
-        function selectCategory(name) {
-            activeCategory = name;
-            renderCategories();
-            renderProducts();
-        }
-
-        function deleteCategory(firebaseKey, catName) {
-            if (categories.length <= 1) {
-                alert("يجب أن يتبقى قسم واحد على الأقل.");
-                return;
-            }
-            if (confirm(`هل أنت متأكد من حذف قسم "${catName}"؟`)) {
-                db.ref('categories/' + firebaseKey).remove();
-                products.forEach(p => {
-                    if (p.category === catName) {
-                        db.ref('products/' + p.firebaseKey).remove();
-                    }
-                });
-            }
-        }
-
-        function renderProducts() {
-            const tbody = document.getElementById('products-table-body');
-            if (!tbody) return;
-            const list = products.filter(p => p.category === activeCategory);
-            tbody.innerHTML = list.length === 0 ? `<tr><td colspan="4" class="p-6 text-center text-slate-400">لا توجد منتجات مضافة في هذا القسم</td></tr>` : list.map(p => `
-                <tr class="border-b hover:bg-slate-50">
-                    <td class="p-4 flex items-center gap-3">
-                        <img src="${p.image || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" class="w-12 h-12 object-cover rounded-xl border">
-                        <span class="font-bold text-slate-900">${p.name}</span>
-                    </td>
-                    <td class="p-4">${p.type}</td>
-                    <td class="p-4 font-bold text-emerald-600">${p.price} ج.م</td>
-                    <td class="p-4 text-center"><button type="button" onclick="addToCart('${p.firebaseKey}')" class="bg-slate-900 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-sm font-bold cursor-pointer transition">إضافة للسلة</button></td>
-                </tr>
-            `).join('');
-        }
-
-        function addToCart(firebaseKey) {
-            const item = products.find(p => p.firebaseKey === firebaseKey);
-            if (!item) return;
-            const inCart = cart.find(c => c.firebaseKey === firebaseKey);
-            if (inCart) inCart.qty++; else cart.push({ ...item, qty: 1 });
-            updateCartUI();
-            document.getElementById('cart-modal').classList.add('show');
-        }
-
-        function updateCartUI() {
-            const totalCount = cart.reduce((s, i) => s + i.qty, 0);
-            document.getElementById('cart-count').innerText = totalCount;
-            
-            const actionsBar = document.getElementById('cart-actions-bar');
-            if (cart.length > 0) {
-                actionsBar.classList.remove('hidden');
-            } else {
-                actionsBar.classList.add('hidden');
-            }
-
-            const container = document.getElementById('cart-items');
-            if (!container) return;
-            container.innerHTML = cart.length === 0 ? `<div class="text-center text-slate-400 py-8">السلة فارغة</div>` : cart.map(i => `
-                <div class="flex justify-between items-center border-b pb-3 gap-2">
-                    <div class="flex items-center gap-2">
-                        <img src="${i.image || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" class="w-10 h-10 object-cover rounded border">
-                        <div>
-                            <div class="font-bold text-sm">${i.name}</div>
-                            <div class="text-xs text-slate-500">${i.price} ج.م (${i.type})</div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <button type="button" onclick="changeQty('${i.firebaseKey}', -1)" class="bg-slate-100 hover:bg-slate-200 w-7 h-7 rounded font-bold flex items-center justify-center cursor-pointer">-</button>
-                        <input type="number" min="1" value="${i.qty}" onchange="setQty('${i.firebaseKey}', this.value)" class="w-12 text-center border rounded font-black text-sm py-0.5 bg-slate-50">
-                        <button type="button" onclick="changeQty('${i.firebaseKey}', 1)" class="bg-slate-100 hover:bg-slate-200 w-7 h-7 rounded font-bold flex items-center justify-center cursor-pointer">+</button>
-                        <button type="button" onclick="removeFromCart('${i.firebaseKey}')" class="text-red-500 hover:text-red-700 px-1 text-xs ml-1"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('cart-total').innerText = cart.reduce((s, i) => s + (i.price * i.qty), 0) + ' ج.م';
-        }
-
-        function changeQty(firebaseKey, delta) {
-            const item = cart.find(c => c.firebaseKey === firebaseKey);
-            if (item) {
-                item.qty += delta;
-                if (item.qty <= 0) {
-                    cart = cart.filter(c => c.firebaseKey !== firebaseKey);
-                }
-                updateCartUI();
-            }
-        }
-
-        function setQty(firebaseKey, val) {
-            const qty = parseInt(val);
-            const item = cart.find(c => c.firebaseKey === firebaseKey);
-            if (item) {
-                if (isNaN(qty) || qty <= 0) {
-                    cart = cart.filter(c => c.firebaseKey !== firebaseKey);
-                } else {
-                    item.qty = qty;
-                }
-                updateCartUI();
-            }
-        }
-
-        function removeFromCart(firebaseKey) {
-            cart = cart.filter(c => c.firebaseKey !== firebaseKey);
-            updateCartUI();
-        }
-
-        function clearCart() {
-            if (confirm("هل تريد تفريغ السلة بالكامل؟")) {
-                cart = [];
-                updateCartUI();
-            }
-        }
-
-        function renderAdminTable() {
-            const tbody = document.getElementById('admin-table-body');
-            if (!tbody) return;
-            tbody.innerHTML = products.length === 0 ? `<tr><td colspan="4" class="p-4 text-center text-slate-400">لا توجد أصناف مضافة</td></tr>` : products.map(p => `
-                <tr class="border-b"><td class="p-2"><img src="${p.image || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" class="w-10 h-10 object-cover rounded"></td><td class="p-2 font-bold">${p.name}</td><td class="p-2">${p.price} ج.م</td><td class="p-2"><button type="button" onclick="deleteProduct('${p.firebaseKey}')" class="bg-red-500 text-white px-2 py-1 rounded text-xs cursor-pointer">حذف</button></td></tr>
-            `).join('');
-        }
-
-        function deleteProduct(firebaseKey) {
-            if (confirm("هل تريد حذف هذا الصنف؟")) {
-                db.ref('products/' + firebaseKey).remove();
-            }
-        }
-
-        function renderAdminOrders() {
-            document.getElementById('orders-badge').innerText = orders.length;
-            const tbody = document.getElementById('admin-orders-body');
-            if (!tbody) return;
-            tbody.innerHTML = orders.length === 0 ? `<tr><td class="p-4 text-center text-slate-400">لا توجد طلبات جديدة</td></tr>` : orders.map(o => `
-                <tr class="border-b"><td class="p-2 font-bold">${o.customer.name}<br><span class="text-xs text-slate-500">${o.customer.phone} - ${o.customer.address}</span></td><td class="p-2 font-bold text-emerald-600">${o.total} ج.م</td><td class="p-2"><button type="button" onclick="deleteOrder('${o.firebaseId}')" class="bg-green-600 text-white px-2 py-1 rounded text-xs cursor-pointer">تم التسليم</button></td></tr>
-            `).join('');
-        }
-
-        function deleteOrder(firebaseId) {
-            if (firebaseId) {
-                db.ref('orders/' + firebaseId).remove();
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initCloudSync();
-
-            // كود تشغيل نافذة المصمم Ahmed Younes
-            const ayModal = document.getElementById("ay-modal");
-            const ayOpenBtn = document.getElementById("ay-open");
-            const ayCloseBtn = document.getElementById("ay-close");
-
-            if (ayModal && ayOpenBtn && ayCloseBtn) {
-                ayOpenBtn.addEventListener("click", () => {
-                    ayModal.classList.add("ay-open");
-                    ayCloseBtn.focus();
-                });
-                ayCloseBtn.addEventListener("click", () => {
-                    ayModal.classList.remove("ay-open");
-                    ayOpenBtn.focus();
-                });
-                ayModal.addEventListener("click", (event) => {
-                    if (event.target === ayModal) ayModal.classList.remove("ay-open");
-                });
-                document.addEventListener("keydown", (event) => {
-                    if (event.key === "Escape" && ayModal.classList.contains("ay-open")) {
-                        ayModal.classList.remove("ay-open");
-                    }
-                });
-            }
-
-            document.getElementById('cart-btn').onclick = () => document.getElementById('cart-modal').classList.add('show');
-            document.getElementById('close-cart-btn').onclick = () => document.getElementById('cart-modal').classList.remove('show');
-
-            document.getElementById('checkout-btn').onclick = () => {
-                if (cart.length === 0) return alert("السلة فارغة!");
-                document.getElementById('cart-modal').classList.remove('show');
-                document.getElementById('checkout-modal').classList.add('show');
-            };
-            document.getElementById('close-checkout-btn').onclick = () => document.getElementById('checkout-modal').classList.remove('show');
-
-            document.getElementById('order-form').onsubmit = (e) => {
-                e.preventDefault();
-                const newOrder = {
-                    id: 'ORD-' + Math.floor(Math.random() * 9000 + 1000),
-                    customer: {
-                        name: document.getElementById('cust-name').value,
-                        phone: document.getElementById('cust-phone').value,
-                        address: document.getElementById('cust-address').value
-                    },
-                    items: [...cart],
-                    total: cart.reduce((s, i) => s + (i.price * i.qty), 0),
-                    date: new Date().toLocaleString('ar-EG')
+                const firebaseConfig = {
+                    databaseURL: "https://abu-islam-store-default-rtdb.firebaseio.com/"
                 };
+                firebase.initializeApp(firebaseConfig);
+                const db = firebase.database();
 
-                db.ref('orders').push(newOrder, (error) => {
-                    if (error) {
-                        alert("حدث خطأ أثناء إرسال الطلب.");
+                const DEFAULT_IMG = "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80";
+
+                let categories = [
+                    { firebaseKey: 'c1', name: 'شيبسي وسناكس', image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=600&q=80' },
+                    { firebaseKey: 'c2', name: 'بسكوت وحلويات', image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80' }
+                ];
+                let products = [];
+                let orders = [];
+                let cart = [];
+                let activeCategory = 'شيبسي وسناكس';
+
+                function checkModalClose(event, modalId) {
+                    if (event.target.classList.contains('app-modal')) {
+                        document.getElementById(modalId).classList.remove('show');
+                    }
+                }
+
+                function initCloudSync() {
+                    renderCategories();
+
+                    db.ref('categories').on('value', (snapshot) => {
+                        const data = snapshot.val();
+                        if (data) {
+                            categories = Object.keys(data).map(key => ({ ...data[key], firebaseKey: key }));
+                        } else {
+                            db.ref('categories').set({
+                                c1: { name: 'شيبسي وسناكس', image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=600&q=80' },
+                                c2: { name: 'بسكوت وحلويات', image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80' }
+                            });
+                        }
+                        renderCategories();
+                        renderAdminCategoryList();
+                    });
+
+                    db.ref('products').on('value', (snapshot) => {
+                        const data = snapshot.val();
+                        if (data) {
+                            products = Object.keys(data).map(key => ({ ...data[key], firebaseKey: key }));
+                        } else {
+                            db.ref('products').push({
+                                category: 'شيبسي وسناكس',
+                                name: 'كرتونة شيبسي مشكل',
+                                type: 'كرتونة',
+                                price: 1500,
+                                image: DEFAULT_IMG
+                            });
+                        }
+                        renderProducts();
+                        renderAdminTable();
+                    });
+
+                    db.ref('orders').on('value', (snapshot) => {
+                        const data = snapshot.val();
+                        if (data) {
+                            orders = Object.keys(data).map(key => ({ ...data[key], firebaseId: key }));
+                        } else {
+                            orders = [];
+                        }
+                        renderAdminOrders();
+                    });
+                }
+
+                function renderCategories() {
+                    const tabs = document.getElementById('categories-tabs');
+                    if (!tabs) return;
+
+                    if (!categories.some(c => c.name === activeCategory) && categories.length > 0) {
+                        activeCategory = categories[0].name;
+                    }
+
+                    tabs.innerHTML = categories.map(c => `
+                        <button type="button" onclick="selectCategory('${c.name}')" class="px-5 py-2.5 rounded-2xl font-bold cursor-pointer ${c.name === activeCategory ? 'bg-emerald-700 text-white shadow-lg' : 'bg-white border text-slate-700'}">${c.name}</button>
+                    `).join('');
+
+                    const activeObj = categories.find(c => c.name === activeCategory) || categories[0];
+                    const bannerContainer = document.getElementById('active-category-banner');
+                    if (activeObj && bannerContainer) {
+                        document.getElementById('banner-title').innerText = activeObj.name;
+                        document.getElementById('banner-image-container').innerHTML = `<img src="${activeObj.image || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" class="w-full h-full object-cover">`;
+                    }
+
+                    const select = document.getElementById('p-category');
+                    if (select) {
+                        select.innerHTML = categories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+                    }
+                }
+
+                function renderAdminCategoryList() {
+                    const container = document.getElementById('admin-categories-list');
+                    if (!container) return;
+                    container.innerHTML = categories.map(c => `
+                        <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border">
+                            <div class="flex items-center gap-2">
+                                <img src="${c.image || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" class="w-8 h-8 object-cover rounded-lg">
+                                <span class="font-bold text-sm">${c.name}</span>
+                            </div>
+                            <button type="button" onclick="deleteCategory('${c.firebaseKey}', '${c.name}')" class="bg-red-500 text-white px-2 py-1 rounded text-xs cursor-pointer">حذف</button>
+                        </div>
+                    `).join('');
+                }
+
+                function selectCategory(name) {
+                    activeCategory = name;
+                    renderCategories();
+                    renderProducts();
+                }
+
+                function deleteCategory(firebaseKey, catName) {
+                    if (categories.length <= 1) {
+                        alert("يجب أن يتبقى قسم واحد على الأقل.");
+                        return;
+                    }
+                    if (confirm(`هل أنت متأكد من حذف قسم "${catName}"؟`)) {
+                        db.ref('categories/' + firebaseKey).remove();
+                        products.forEach(p => {
+                            if (p.category === catName) {
+                                db.ref('products/' + p.firebaseKey).remove();
+                            }
+                        });
+                    }
+                }
+
+                // تحسين دالة عرض المنتجات لمنع تداخل الكلام نهائياً
+                function renderProducts() {
+                    const container = document.getElementById('products-container');
+                    if (!container) return;
+                    const list = products.filter(p => p.category === activeCategory);
+
+                    if (list.length === 0) {
+                        container.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400 font-bold">لا توجد منتجات مضافة في هذا القسم</div>`;
+                        return;
+                    }
+
+                    container.innerHTML = list.map(p => `
+                        <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-3.5 rounded-2xl shadow-sm hover:shadow-md transition">
+                            <div class="flex items-center gap-3">
+                                <img src="${p.image || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" class="w-14 h-14 object-cover rounded-xl border border-slate-200">
+                                <div class="flex flex-col">
+                                    <span class="font-black text-slate-900 text-base leading-snug">${p.name}</span>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded-md font-bold">${p.type}</span>
+                                        <span class="text-emerald-700 font-black text-sm">${p.price} ج.م</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" onclick="addToCart('${p.firebaseKey}')" class="bg-slate-900 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold cursor-pointer transition shrink-0">
+                                إضافة للسلة
+                            </button>
+                        </div>
+                    `).join('');
+                }
+
+                function addToCart(firebaseKey) {
+                    const item = products.find(p => p.firebaseKey === firebaseKey);
+                    if (!item) return;
+                    const inCart = cart.find(c => c.firebaseKey === firebaseKey);
+                    if (inCart) inCart.qty++; else cart.push({ ...item, qty: 1 });
+                    updateCartUI();
+                    document.getElementById('cart-modal').classList.add('show');
+                }
+
+                function updateCartUI() {
+                    const totalCount = cart.reduce((s, i) => s + i.qty, 0);
+                    document.getElementById('cart-count').innerText = totalCount;
+
+                    const actionsBar = document.getElementById('cart-actions-bar');
+                    if (cart.length > 0) {
+                        actionsBar.classList.remove('hidden');
                     } else {
+                        actionsBar.classList.add('hidden');
+                    }
+
+                    const container = document.getElementById('cart-items');
+                    if (!container) return;
+                    container.innerHTML = cart.length === 0 ? `<div class="text-center text-slate-400 py-8">السلة فارغة</div>` : cart.map(i => `
+                        <div class="flex justify-between items-center border-b pb-3 gap-2">
+                            <div class="flex items-center gap-2">
+                                <img src="${i.image || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" class="w-10 h-10 object-cover rounded border">
+                                <div>
+                                    <div class="font-bold text-sm">${i.name}</div>
+                                    <div class="text-xs text-slate-500">${i.price} ج.م (${i.type})</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <button type="button" onclick="changeQty('${i.firebaseKey}', -1)" class="bg-slate-100 hover:bg-slate-200 w-7 h-7 rounded font-bold flex items-center justify-center cursor-pointer">-</button>
+                                <input type="number" min="1" value="${i.qty}" onchange="setQty('${i.firebaseKey}', this.value)" class="w-12 text-center border rounded font-black text-sm py-0.5 bg-slate-50">
+                                <button type="button" onclick="changeQty('${i.firebaseKey}', 1)" class="bg-slate-100 hover:bg-slate-200 w-7 h-7 rounded font-bold flex items-center justify-center cursor-pointer">+</button>
+                                <button type="button" onclick="removeFromCart('${i.firebaseKey}')" class="text-red-500 hover:text-red-700 px-1 text-xs ml-1"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
+                    `).join('');
+                    document.getElementById('cart-total').innerText = cart.reduce((s, i) => s + (i.price * i.qty), 0) + ' ج.م';
+                }
+
+                function changeQty(firebaseKey, delta) {
+                    const item = cart.find(c => c.firebaseKey === firebaseKey);
+                    if (item) {
+                        item.qty += delta;
+                        if (item.qty <= 0) {
+                            cart = cart.filter(c => c.firebaseKey !== firebaseKey);
+                        }
+                        updateCartUI();
+                    }
+                }
+
+                function setQty(firebaseKey, val) {
+                    const qty = parseInt(val);
+                    const item = cart.find(c => c.firebaseKey === firebaseKey);
+                    if (item) {
+                        if (isNaN(qty) || qty <= 0) {
+                            cart = cart.filter(c => c.firebaseKey !== firebaseKey);
+                        } else {
+                            item.qty = qty;
+                        }
+                        updateCartUI();
+                    }
+                }
+
+                function removeFromCart(firebaseKey) {
+                    cart = cart.filter(c => c.firebaseKey !== firebaseKey);
+                    updateCartUI();
+                }
+
+                function clearCart() {
+                    if (confirm("هل تريد تفريغ السلة بالكامل؟")) {
                         cart = [];
                         updateCartUI();
-                        document.getElementById('checkout-modal').classList.remove('show');
-                        alert("تم إرسال طلبك بنجاح وسيظهر لدى الإدارة فوراً!");
                     }
-                });
-            };
-
-            document.getElementById('admin-btn').onclick = () => document.getElementById('admin-login-modal').classList.add('show');
-            document.getElementById('close-admin-login-btn').onclick = () => document.getElementById('admin-login-modal').classList.remove('show');
-            document.getElementById('close-admin-dashboard-btn').onclick = () => document.getElementById('admin-dashboard').classList.remove('show');
-
-            // التحقق من كلمة المرور السرية للأدمن
-            document.getElementById('verify-admin-btn').onclick = () => {
-                if (document.getElementById('admin-pass').value === '800050004587') {
-                    document.getElementById('admin-login-modal').classList.remove('show');
-                    document.getElementById('admin-dashboard').classList.add('show');
-                } else alert("كلمة المرور غير صحيحة!");
-            };
-
-            document.getElementById('add-category-form').onsubmit = (e) => {
-                e.preventDefault();
-                const name = document.getElementById('c-name').value.trim();
-                const fileInput = document.getElementById('c-image');
-                const file = fileInput.files[0];
-
-                if (categories.some(c => c.name === name)) {
-                    alert("هذا القسم موجود بالفعل.");
-                    return;
                 }
 
-                const saveToCloud = (imgUrl) => {
-                    db.ref('categories').push({ name: name, image: imgUrl }, (err) => {
-                        if (!err) {
-                            document.getElementById('add-category-form').reset();
-                            alert("تمت إضافة القسم وحفظه سحابياً بنجاح!");
-                        }
-                    });
-                };
-
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (evt) => saveToCloud(evt.target.result);
-                    reader.readAsDataURL(file);
-                } else {
-                    saveToCloud(DEFAULT_IMG);
+                function renderAdminTable() {
+                    const tbody = document.getElementById('admin-table-body');
+                    if (!tbody) return;
+                    tbody.innerHTML = products.length === 0 ? `<tr><td colspan="4" class="p-4 text-center text-slate-400">لا توجد أصناف مضافة</td></tr>` : products.map(p => `
+                        <tr class="border-b"><td class="p-2"><img src="${p.image || DEFAULT_IMG}" onerror="this.src='${DEFAULT_IMG}'" class="w-10 h-10 object-cover rounded"></td><td class="p-2 font-bold">${p.name}</td><td class="p-2">${p.price} ج.م</td><td class="p-2"><button type="button" onclick="deleteProduct('${p.firebaseKey}')" class="bg-red-500 text-white px-2 py-1 rounded text-xs cursor-pointer">حذف</button></td></tr>
+                    `).join('');
                 }
-            };
 
-            document.getElementById('add-product-form').onsubmit = (e) => {
-                e.preventDefault();
-                const fileInput = document.getElementById('p-image');
-                const file = fileInput.files[0];
+                function deleteProduct(firebaseKey) {
+                    if (confirm("هل تريد حذف هذا الصنف؟")) {
+                        db.ref('products/' + firebaseKey).remove();
+                    }
+                }
 
-                const saveToCloud = (imgUrl) => {
-                    const newProd = {
-                        category: document.getElementById('p-category').value,
-                        name: document.getElementById('p-name').value.trim(),
-                        type: document.getElementById('p-type').value,
-                        price: parseFloat(document.getElementById('p-price').value),
-                        image: imgUrl
+                function renderAdminOrders() {
+                    document.getElementById('orders-badge').innerText = orders.length;
+                    const tbody = document.getElementById('admin-orders-body');
+                    if (!tbody) return;
+                    tbody.innerHTML = orders.length === 0 ? `<tr><td class="p-4 text-center text-slate-400">لا توجد طلبات جديدة</td></tr>` : orders.map(o => `
+                        <tr class="border-b"><td class="p-2 font-bold">${o.customer.name}<br><span class="text-xs text-slate-500">${o.customer.phone} - ${o.customer.address}</span></td><td class="p-2 font-bold text-emerald-600">${o.total} ج.م</td><td class="p-2"><button type="button" onclick="deleteOrder('${o.firebaseId}')" class="bg-green-600 text-white px-2 py-1 rounded text-xs cursor-pointer">تم التسليم</button></td></tr>
+                    `).join('');
+                }
+
+                function deleteOrder(firebaseId) {
+                    if (firebaseId) {
+                        db.ref('orders/' + firebaseId).remove();
+                    }
+                }
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    initCloudSync();
+
+                    // كود تشغيل نافذة المصمم Ahmed Younes
+                    const ayModal = document.getElementById("ay-modal");
+                    const ayOpenBtn = document.getElementById("ay-open");
+                    const ayCloseBtn = document.getElementById("ay-close");
+
+                    if (ayModal && ayOpenBtn && ayCloseBtn) {
+                        ayOpenBtn.addEventListener("click", () => {
+                            ayModal.classList.add("ay-open");
+                            ayCloseBtn.focus();
+                        });
+                        ayCloseBtn.addEventListener("click", () => {
+                            ayModal.classList.remove("ay-open");
+                            ayOpenBtn.focus();
+                        });
+                        ayModal.addEventListener("click", (event) => {
+                            if (event.target === ayModal) ayModal.classList.remove("ay-open");
+                        });
+                        document.addEventListener("keydown", (event) => {
+                            if (event.key === "Escape" && ayModal.classList.contains("ay-open")) {
+                                ayModal.classList.remove("ay-open");
+                            }
+                        });
+                    }
+
+                    document.getElementById('cart-btn').onclick = () => document.getElementById('cart-modal').classList.add('show');
+                    document.getElementById('close-cart-btn').onclick = () => document.getElementById('cart-modal').classList.remove('show');
+
+                    document.getElementById('checkout-btn').onclick = () => {
+                        if (cart.length === 0) return alert("السلة فارغة!");
+                        document.getElementById('cart-modal').classList.remove('show');
+                        document.getElementById('checkout-modal').classList.add('show');
+                    };
+                    document.getElementById('close-checkout-btn').onclick = () => document.getElementById('checkout-modal').classList.remove('show');
+
+                    document.getElementById('order-form').onsubmit = (e) => {
+                        e.preventDefault();
+                        const newOrder = {
+                            id: 'ORD-' + Math.floor(Math.random() * 9000 + 1000),
+                            customer: {
+                                name: document.getElementById('cust-name').value,
+                                phone: document.getElementById('cust-phone').value,
+                                address: document.getElementById('cust-address').value
+                            },
+                            items: [...cart],
+                            total: cart.reduce((s, i) => s + (i.price * i.qty), 0),
+                            date: new Date().toLocaleString('ar-EG')
+                        };
+
+                        db.ref('orders').push(newOrder, (error) => {
+                            if (error) {
+                                alert("حدث خطأ أثناء إرسال الطلب.");
+                            } else {
+                                cart = [];
+                                updateCartUI();
+                                document.getElementById('checkout-modal').classList.remove('show');
+                                alert("تم إرسال طلبك بنجاح وسيظهر لدى الإدارة فوراً!");
+                            }
+                        });
                     };
 
-                    db.ref('products').push(newProd, (err) => {
-                        if (!err) {
-                            document.getElementById('add-product-form').reset();
-                            alert("تمت إضافة الصنف وحفظه سحابياً بنجاح!");
-                        }
-                    });
-                };
+                    document.getElementById('admin-btn').onclick = () => document.getElementById('admin-login-modal').classList.add('show');
+                    document.getElementById('close-admin-login-btn').onclick = () => document.getElementById('admin-login-modal').classList.remove('show');
+                    document.getElementById('close-admin-dashboard-btn').onclick = () => document.getElementById('admin-dashboard').classList.remove('show');
 
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (evt) => saveToCloud(evt.target.result);
-                    reader.readAsDataURL(file);
-                } else {
-                    saveToCloud(DEFAULT_IMG);
-                }
-            };
-        });
+                    // التحقق من كلمة المرور السرية للأدمن
+                    document.getElementById('verify-admin-btn').onclick = () => {
+                        if (document.getElementById('admin-pass').value === '800050004587') {
+                            document.getElementById('admin-login-modal').classList.remove('show');
+                            document.getElementById('admin-dashboard').classList.add('show');
+                        } else alert("كلمة المرور غير صحيحة!");
+                    };
+
+                    document.getElementById('add-category-form').onsubmit = (e) => {
+                        e.preventDefault();
+                        const name = document.getElementById('c-name').value.trim();
+                        const fileInput = document.getElementById('c-image');
+                        const file = fileInput.files[0];
+
+                        if (categories.some(c => c.name === name)) {
+                            alert("هذا القسم موجود بالفعل.");
+                            return;
+                        }
+
+                        const saveToCloud = (imgUrl) => {
+                            db.ref('categories').push({ name: name, image: imgUrl }, (err) => {
+                                if (!err) {
+                                    document.getElementById('add-category-form').reset();
+                                    alert("تمت إضافة القسم وحفظه سحابياً بنجاح!");
+                                }
+                            });
+                        };
+
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (evt) => saveToCloud(evt.target.result);
+                            reader.readAsDataURL(file);
+                        } else {
+                            saveToCloud(DEFAULT_IMG);
+                        }
+                    };
+
+                    document.getElementById('add-product-form').onsubmit = (e) => {
+                        e.preventDefault();
+                        const fileInput = document.getElementById('p-image');
+                        const file = fileInput.files[0];
+
+                        const saveToCloud = (imgUrl) => {
+                            const newProd = {
+                                category: document.getElementById('p-category').value,
+                                name: document.getElementById('p-name').value.trim(),
+                                type: document.getElementById('p-type').value,
+                                price: parseFloat(document.getElementById('p-price').value),
+                                image: imgUrl
+                            };
+
+                            db.ref('products').push(newProd, (err) => {
+                                if (!err) {
+                                    document.getElementById('add-product-form').reset();
+                                    alert("تمت إضافة الصنف وحفظه سحابياً بنجاح!");
+                                }
+                            });
+                        };
+
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (evt) => saveToCloud(evt.target.result);
+                            reader.readAsDataURL(file);
+                        } else {
+                            saveToCloud(DEFAULT_IMG);
+                        }
+                    };
+                });
     </script>
 </body>
 </html>
